@@ -1,0 +1,1201 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>شركة التواصل العالمي - روابط</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- إضافة مكتبة EmailJS -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        :root {
+            --bg-color: #f8f9fa;
+            --text-color: #212529;
+            --card-bg: rgba(255, 255, 255, 0.85);
+            --card-border: rgba(0, 0, 0, 0.05);
+            --accent-color: #c89b3c;
+            --accent-grad: linear-gradient(45deg, #f0e68c, #c89b3c);
+            --subtle-text: #495057;
+            --muted-bg: rgba(255, 255, 255, 0.7);
+        }
+        .dark {
+            --bg-color: #0a192f;
+            --text-color: #e6f1ff;
+            --card-bg: rgba(13, 37, 63, 0.85);
+            --card-border: rgba(255, 255, 255, 0.1);
+            --accent-color: #ffd700;
+            --accent-grad: linear-gradient(45deg, #fff2a8, #ffd700);
+            --subtle-text: #a8b2d1;
+            --muted-bg: rgba(13, 37, 63, 0.7);
+        }
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Cairo', sans-serif;
+            transition: background-color .35s, color .35s;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+        #bg-video {
+            position: fixed;
+            right: 0;
+            bottom: 0;
+            min-width: 100%;
+            min-height: 100%;
+            z-index: -2;
+            object-fit: cover;
+            transition: opacity 1s ease-in-out;
+        }
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            pointer-events: none;
+            background: rgba(0, 0, 0, 0.45); /* زيادة التعتيم للخلفية */
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+        }
+        .dark body::before {
+            background: rgba(10, 25, 47, 0.65); /* زيادة التعتيم في الوضع المظلم */
+        }
+        .container {
+            position: relative;
+            z-index: 1;
+        }
+        /* Navbar */
+        .navbar {
+            background: transparent;
+            border-bottom: 1px solid var(--card-border);
+            padding: .75rem 0;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .navbar .brand-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            background: var(--accent-grad);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.3); /* إضافة ظل للنص */
+        }
+        .controls {
+            display: flex;
+            gap: 1rem;
+        }
+        /* Custom control buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: .5rem;
+            padding: .5rem 1rem;
+            border-radius: 999px;
+            font-weight: 600;
+            border: none;
+            background: var(--accent-grad);
+            color: #fff;
+            box-shadow: 0 2px 8px rgba(184,134,11,0.08);
+            cursor: pointer;
+            transition: background .2s, transform .15s;
+            position: relative;
+        }
+        .btn:active { transform: scale(0.97); }
+        .btn:focus { outline: 2px solid var(--accent-color); }
+        .btn .icon {
+            font-size: 1.2rem;
+        }
+        
+        /* Language toggle button - new style */
+        .lang-toggle {
+            width: 60px;
+            height: 30px;
+            border-radius: 999px;
+            background: var(--accent-grad);
+            display: flex;
+            align-items: center;
+            padding: 4px;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+            overflow: hidden;
+        }
+        .lang-toggle .lang-label {
+            position: absolute;
+            right: 7px;
+            color: white;
+            font-weight: 600;
+            font-size: 12px;
+            transition: transform 0.3s ease, opacity 0.2s ease;
+            opacity: 0;
+        }
+        .lang-toggle .lang-label.active {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        .lang-toggle .lang-label.en {
+            right: initial;
+            left: 7px;
+        }
+        .lang-flag {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            position: absolute;
+            left: 3px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #fff;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+            transition: transform 0.3s cubic-bezier(.2,.9,.2,1);
+            font-size: 16px;
+        }
+        [dir="ltr"] .lang-flag {
+            transform: translateX(30px);
+        }
+        /* Theme toggle switch */
+        .theme-toggle {
+            width: 60px;
+            height: 30px;
+            border-radius: 999px;
+            background: var(--accent-grad);
+            display: flex;
+            align-items: center;
+            padding: 4px;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        }
+        .theme-handle {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: #fff;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+            position: absolute;
+            left: 4px;
+            transition: transform 0.3s cubic-bezier(.2,.9,.2,1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .dark .theme-toggle { background: linear-gradient(45deg, #2c3e50, #4a69bd); }
+        .dark .theme-handle {
+            transform: translateX(30px);
+        }
+        .theme-handle .icon {
+            color: #c89b3c;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            position: absolute;
+            font-size: 12px;
+        }
+        .theme-handle .moon-icon {
+            opacity: 1;
+        }
+        .dark .theme-handle .moon-icon {
+            opacity: 0;
+        }
+        .dark .theme-handle .sun-icon {
+            opacity: 1;
+            color: #ffd700;
+        }
+        /* Header */
+        header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+        .brand-title {
+            font-size: 2.3rem;
+            font-weight: 800;
+            background: var(--accent-grad);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: .5rem;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.5); /* زيادة كثافة الظل */
+        }
+        .tagline {
+            color: #ffffff; /* تغيير لون النص ليكون أبيض دائمًا */
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+            opacity: 0.95;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.6); /* إضافة ظل للنص */
+            font-weight: 500; /* زيادة سماكة الخط */
+        }
+        /* Cards */
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+            transition: transform .25s, box-shadow .25s, border-color .25s;
+            border-radius: 1.2rem;
+            position: relative;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 45px rgba(0,0,0,0.2);
+            border-color: var(--accent-color);
+        }
+        .icon-circle {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--accent-grad);
+            margin: 0 auto .5rem;
+            box-shadow: 0 4px 12px rgba(200, 155, 60, 0.3);
+        }
+        /* Social cards */
+        .social-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 1rem;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+            transition: all .25s;
+            text-align: center;
+            padding: 1.2rem .5rem;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+        .social-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-color);
+            box-shadow: 0 10px 28px rgba(0,0,0,0.15);
+            color: var(--accent-color);
+        }
+        /* Footer */
+        .site-footer {
+            background: transparent;
+            padding-top: 2.5rem;
+            padding-bottom: 2.5rem;
+            border-top: 1px solid var(--card-border);
+            font-size: 1rem;
+            color: #ffffff; /* تغيير لون النص للأبيض */
+            text-shadow: 0 1px 3px rgba(0,0,0,0.5); /* إضافة ظل للنص */
+            opacity: 0.95;
+        }
+        /* Animation */
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        
+        header, section {
+            animation: slideUp 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+        }
+        header { animation-delay: 0.1s; }
+        section:nth-of-type(1) { animation-delay: 0.2s; }
+        section:nth-of-type(2) { animation-delay: 0.3s; }
+        section:nth-of-type(3) { animation-delay: 0.4s; }
+
+        /* Background slideshow (new) */
+        .bg-slideshow {
+            position: fixed;
+            inset: 0;
+            z-index: -2; /* behind overlay (body::before z-index:-1) and content (z-index:1) */
+            overflow: hidden;
+            pointer-events: none;
+        }
+        .bg-slide {
+            position: absolute;
+            inset: 0;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            opacity: 0;
+            transform: scale(1.06) translateZ(0);
+            transition: opacity 1s ease, filter 1s ease, transform 12s linear;
+            filter: blur(6px) saturate(1.05) contrast(0.98);
+            will-change: opacity, transform, filter;
+        }
+        .bg-slide.active {
+            opacity: 1;
+            transform: scale(1.12);
+            filter: blur(8px) saturate(1.08) contrast(1);
+        }
+        /* subtle individual pan/zoom animations - durations vary per slide */
+        @keyframes panSlow {
+            0%   { transform: scale(1.06) translateX(0) translateY(0); }
+            50%  { transform: scale(1.12) translateX(-4%) translateY(2%); }
+            100% { transform: scale(1.08) translateX(0) translateY(0); }
+        }
+        @keyframes panReverse {
+            0%   { transform: scale(1.06) translateX(0) translateY(0); }
+            50%  { transform: scale(1.12) translateX(4%) translateY(-2%); }
+            100% { transform: scale(1.08) translateX(0) translateY(0); }
+        }
+        .bg-slide[data-anim="panSlow"] { animation: panSlow 28s ease-in-out infinite; }
+        .bg-slide[data-anim="panReverse"] { animation: panReverse 26s ease-in-out infinite; }
+        .bg-slide[data-anim="panMed"] { animation: panSlow 22s ease-in-out infinite; }
+
+        /* Section headings */
+        section h2 {
+            color: #ffffff; /* جعل عناوين الأقسام بيضاء */
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5); /* إضافة ظل */
+            font-weight: 700;
+        }
+        
+        /* make slides slightly darker overlay to improve text contrast */
+        .bg-slide::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, rgba(0,0,0,0.4), rgba(0,0,0,0.2)); /* زيادة تعتيم الصور */
+            mix-blend-mode: multiply;
+            pointer-events: none;
+        }
+
+        /* Contact Form Styles - Updated Colors */
+        .contact-form-section {
+            margin-top: 4rem;
+        }
+        .contact-form {
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.92), rgba(240, 240, 245, 0.95));
+            border: 2px solid var(--accent-color);
+            border-radius: 1.2rem;
+            padding: 2.5rem;
+            box-shadow: 
+                0 10px 30px rgba(0, 0, 0, 0.15),
+                0 1px 8px rgba(200, 155, 60, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .dark .contact-form {
+            background: linear-gradient(145deg, rgba(30, 41, 59, 0.95), rgba(17, 25, 40, 0.92));
+            border-color: rgba(255, 215, 0, 0.4);
+            box-shadow: 
+                0 10px 30px rgba(0, 0, 0, 0.4),
+                0 1px 8px rgba(255, 215, 0, 0.2);
+        }
+        
+        .contact-form::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: var(--accent-grad);
+            z-index: 1;
+        }
+        
+        .form-heading {
+            color: var(--accent-color);
+            font-weight: 700;
+            font-size: 1.7rem;
+            margin-bottom: 1rem;
+            text-align: center;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(200, 155, 60, 0.3);
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        }
+        
+        .form-subheading {
+            color: var(--subtle-text);
+            text-align: center;
+            margin-bottom: 2rem;
+            font-size: 1.05rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--accent-color);
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 0.85rem 1.2rem;
+            border-radius: 0.7rem;
+            border: 1px solid rgba(200, 155, 60, 0.3);
+            background-color: rgba(255, 255, 255, 0.9);
+            color: #333;
+            transition: all 0.25s ease;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05) inset;
+        }
+        
+        .dark .form-control {
+            background-color: rgba(255, 255, 255, 0.85);
+            border-color: rgba(255, 215, 0, 0.3);
+        }
+        
+        .form-control:focus {
+            border-color: var(--accent-color);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(200, 155, 60, 0.2);
+            transform: translateY(-2px);
+        }
+        
+        .form-control::placeholder {
+            color: #999;
+            opacity: 0.7;
+        }
+        
+        textarea.form-control {
+            min-height: 140px;
+            resize: vertical;
+        }
+        
+        .submit-btn {
+            background: var(--accent-grad);
+            color: white;
+            border: none;
+            padding: 0.85rem 2.2rem;
+            border-radius: 9999px;
+            font-weight: 700;
+            font-size: 1.05rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.7rem;
+            transition: all 0.3s ease;
+            box-shadow: 
+                0 4px 15px rgba(200, 155, 60, 0.4),
+                0 2px 4px rgba(0, 0, 0, 0.1);
+            width: auto;
+            margin: 1.5rem auto 0;
+        }
+        
+        .submit-btn:hover {
+            box-shadow: 0 8px 20px rgba(200, 155, 60, 0.6);
+            transform: translateY(-3px);
+        }
+        
+        .submit-btn:active {
+            transform: translateY(0);
+            box-shadow: 0 3px 10px rgba(200, 155, 60, 0.3);
+        }
+        
+        /* Info Card Styles */
+        .info-card {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            transition: transform .25s, box-shadow .25s;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+        .info-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+            border-color: var(--accent-color);
+        }
+        .info-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--accent-grad);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            box-shadow: 0 4px 12px rgba(200, 155, 60, 0.2);
+        }
+        .info-content {
+            flex-grow: 1;
+        }
+        .info-title {
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+        .info-value {
+            color: var(--subtle-text);
+            font-size: 0.95rem;
+        }
+
+        /* Ensure responsive perf: reduce blur & animation on small screens */
+        @media (max-width: 640px) {
+            .bg-slide { filter: blur(4px); }
+            .bg-slide.active { filter: blur(6px); }
+            .bg-slide[data-anim="panSlow"],
+            .bg-slide[data-anim="panReverse"],
+            .bg-slide[data-anim="panMed"] { animation-duration: 40s; }
+        }
+
+        /* Responsive */
+        @media (max-width: 640px) {
+            .brand-title { font-size: 1.5rem; }
+            .navbar { flex-direction: column; gap: .5rem; }
+        }
+
+        /* Header logo styling - new professional rectangular style */
+        .logo-container {
+            width: 220px;
+            height: 220px;
+            margin: 0 auto 1.5rem;
+            border-radius: 16px;
+            background: linear-gradient(135deg, rgba(0,0,0,0.4), rgba(0,0,0,0.1));
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            border: 1px solid rgba(200, 155, 60, 0.4);
+            box-shadow: 
+                0 15px 25px rgba(0,0,0,0.2),
+                0 5px 10px rgba(0,0,0,0.1),
+                inset 0 1px 1px rgba(255,255,255,0.1);
+            padding: 4px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        
+        .logo-container::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: 15px;
+            background: linear-gradient(135deg, rgba(200,155,60,0.1), transparent);
+            z-index: -1;
+        }
+        
+        .logo-container .logo {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+            transform: scale(1);
+            transition: transform 0.3s ease;
+        }
+        
+        .logo-container:hover .logo {
+            transform: scale(1.05);
+        }
+        
+        /* إضافة أنماط رسائل النجاح والخطأ */
+        .form-message {
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            opacity: 0;
+            height: 0;
+            overflow: hidden;
+            transition: opacity 0.3s ease, height 0.3s ease, margin 0.3s ease, padding 0.3s ease;
+        }
+        
+        .form-message.show {
+            opacity: 1;
+            height: auto;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-message.success {
+            background-color: rgba(52, 211, 153, 0.2);
+            border: 1px solid rgba(52, 211, 153, 0.5);
+            color: #047857;
+        }
+        
+        .form-message.error {
+            background-color: rgba(248, 113, 113, 0.2);
+            border: 1px solid rgba(248, 113, 113, 0.5);
+            color: #b91c1c;
+        }
+        
+        /* Loading spinner */
+        .spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s linear infinite;
+            margin-left: 0.5rem;
+            display: none;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .btn.submitting .spinner {
+            display: inline-block;
+        }
+        
+        .btn.submitting span {
+            opacity: 0.7;
+        }
+    </style>
+</head>
+
+<body style="background-color: var(--bg-color); color: var(--text-color);">
+    
+    <!-- Background slideshow: multiple images rotate with blur + subtle pan -->
+    <div class="bg-slideshow" aria-hidden="true">
+        <div class="bg-slide" data-anim="panSlow" style="background-image: url('./التواصل العالمي خلفيات/1.png');"></div>
+        <div class="bg-slide" data-anim="panReverse" style="background-image: url('./التواصل العالمي خلفيات/2.png');"></div>
+        <div class="bg-slide" data-anim="panMed" style="background-image: url('./التواصل العالمي خلفيات/3.png');"></div>
+        <div class="bg-slide" data-anim="panSlow" style="background-image: url('./التواصل العالمي خلفيات/4.png');"></div>
+        <div class="bg-slide" data-anim="panMed" style="background-image: url('./التواصل العالمي خلفيات/5.png');"></div>
+        <div class="bg-slide" data-anim="panReverse" style="background-image: url('./التواصل العالمي خلفيات/6.png');"></div>
+        <div class="bg-slide" data-anim="panSlow" style="background-image: url('./التواصل العالمي خلفيات/7.png');"></div>
+        <div class="bg-slide" data-anim="panMed" style="background-image: url('./التواصل العالمي خلفيات/8.png');"></div>
+    </div>
+
+    <!-- Navbar -->
+    <nav class="navbar container mx-auto px-4">
+        <div class="brand-title" data-key="companyName">شركة التواصل العالمي</div>
+        <div class="controls">
+            <div id="lang-button" class="lang-toggle" role="button" aria-label="Toggle language" title="Toggle language">
+                <span class="lang-flag">🇸🇦</span>
+                <span class="lang-label ar active">AR</span>
+                <span class="lang-label en">EN</span>
+            </div>
+            <div id="theme-button" class="theme-toggle" role="switch" aria-label="Toggle theme" title="Toggle theme">
+                <div class="theme-handle">
+                    <span class="icon moon-icon"><i data-lucide="moon" class="lucide-icon"></i></span>
+                    <span class="icon sun-icon"><i data-lucide="sun" class="lucide-icon"></i></span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mx-auto px-4 py-12 sm:py-20 max-w-4xl">
+        <!-- Header -->
+        <header>
+            <div class="logo-container">
+                <img src="./logo1.png" alt="شعار شركة التواصل العالمي" class="logo">
+            </div>
+            <h1 class="brand-title" data-key="companyName">شركة التواصل العالمي</h1>
+            <div class="tagline" data-key="tagline">نصل العالم من خلال خدمات اتصالات استثنائية وشراكات عالمية</div>
+        </header>
+
+        <!-- Get in Touch Section -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-center mb-8" data-key="getInTouch">كن على تواصل</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <a href="tel:+966545766489" class="card p-7 text-center flex flex-col items-center">
+                    <div class="icon-circle">
+                        <i data-lucide="phone" class="w-7 h-7 text-white"></i>
+                    </div>
+                    <h3 class="font-semibold text-lg mt-2" data-key="phone">هاتف</h3>
+                    <p class="mt-1" style="color: var(--subtle-text);" dir="ltr">+966 54 576 6489</p>
+                </a>
+                <a href="mailto:info@altawasul.com" class="card p-7 text-center flex flex-col items-center">
+                    <div class="icon-circle">
+                        <i data-lucide="mail" class="w-7 h-7 text-white"></i>
+                    </div>
+                    <h3 class="font-semibold text-lg mt-2" data-key="email">بريد إلكتروني</h3>
+                    <p class="mt-1" style="color: var(--subtle-text);">info@altawasul-alalami.com</p>
+                </a>
+                <a href="https://www.altawasul-alalami.com" class="card p-7 text-center flex flex-col items-center">
+                    <div class="icon-circle">
+                        <i data-lucide="globe-2" class="w-7 h-7 text-white"></i>
+                    </div>
+                    <h3 class="font-semibold text-lg mt-2" data-key="website">الموقع الإلكتروني</h3>
+                    <p class="mt-1" style="color: var(--subtle-text);">www.altawasul-alalami.com</p>
+                </a>
+            </div>
+        </section>
+
+        <!-- Connect With Us Section -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-center mb-8" data-key="connectWithUs">تواصل معنا عبر</h2>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                <a href="https://www.facebook.com/altawasulalalami" class="social-card flex flex-col items-center justify-center">
+                    <i data-lucide="facebook" class="w-9 h-9 mb-2"></i>
+                    <span class="font-medium" data-key="facebook">فيسبوك</span>
+                </a>
+                <a href="https://www.instagram.com/altawasulalalami" class="social-card flex flex-col items-center justify-center">
+                    <i data-lucide="instagram" class="w-9 h-9 mb-2"></i>
+                    <span class="font-medium" data-key="instagram">انستغرام</span>
+                </a>
+                <a href="https://twitter.com/altawasulalalami" class="social-card flex flex-col items-center justify-center">
+                    <i data-lucide="x" class="w-9 h-9 mb-2"></i>
+                    <span class="font-medium" data-key="twitter">تطبيق اكس</span>
+                </a>
+                <a href="https://wa.me/+966590304959" class="social-card flex flex-col items-center justify-center">
+                    <i data-lucide="message-circle" class="w-9 h-9 mb-2"></i>
+                    <span class="font-medium" data-key="whatsapp">واتساب بزنس</span>
+                </a>
+            </div>
+        </section>
+
+        <!-- Visit Our Office Section -->
+        <section>
+            <h2 class="text-2xl font-bold text-center mb-8" data-key="visitOffice">قم بزيارة مكتبنا</h2>
+            
+            <!-- Contact Information Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                <!-- Address Card -->
+                <div class="info-card">
+                    <div class="info-icon">
+                        <i data-lucide="map-pin" class="w-6 h-6 text-white"></i>
+                    </div>
+                    <div class="info-content">
+                        <h3 class="info-title" data-key="address">العنوان</h3>
+                        <!-- أضفنا data-key للنص الكامل ليترجم آلياً -->
+                        <p class="info-value" data-key="addressValue">9031 شارع عبدالرحمن عبدالقادر فقيه، حول جراند جاليريا، مكتب 20، حي الشرفية، مكة المكرمة، المملكة العربية السعودية، 24353</p>
+                    </div>
+                </div>
+                
+                <!-- Working Hours Card -->
+                <div class="info-card">
+                    <div class="info-icon">
+                        <i data-lucide="clock" class="w-6 h-6 text-white"></i>
+                    </div>
+                    <div class="info-content">
+                        <h3 class="info-title" data-key="workingHours">ساعات العمل</h3>
+                        <!-- أضفنا data-key للقيمة أيضاً -->
+                        <p class="info-value" data-key="workingHoursValue">24 ساعة</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Map -->
+            <div class="card overflow-hidden p-2">
+                <iframe 
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d928.8457758752777!2d39.78912833037145!3d21.37481494763121!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x15c21a9b9d4efd0d%3A0xdc693b43f45cebd1!2z2KzYsdin2YbYryDYrNmI2YTYr9mGINis2KfZhNmK2LHZig!5e0!3m2!1sar!2seg!4v1756770314642!5m2!1sar!2seg" 
+                    width="100%" 
+                    height="350" 
+                    class="rounded-lg"
+                    style="border:0;" 
+                    allowfullscreen="" 
+                    loading="lazy" 
+                    referrerpolicy="no-referrer-when-downgrade">
+                </iframe>
+            </div>
+        </section>
+        
+        <!-- Contact Form Section -->
+        <section class="contact-form-section">
+            <h2 class="text-2xl font-bold text-center mb-8" data-key="sendMessage">أرسل لنا رسالة</h2>
+            
+            <div class="contact-form">
+                <h3 class="form-heading" data-key="contactFormTitle">اتصل بنا</h3>
+                <p class="form-subheading" data-key="contactFormSubtitle">لديك سؤال أو استفسار؟ يرجى ملء النموذج أدناه وسنرد عليك في أقرب وقت ممكن.</p>
+                
+                <!-- إضافة رسائل النجاح والخطأ -->
+                <div id="success-message" class="form-message success">
+                    <i data-lucide="check-circle" class="w-5 h-5"></i>
+                    <span data-key="formSuccess">تم إرسال رسالتك بنجاح! سنتواصل معك قريباً.</span>
+                </div>
+                
+                <div id="error-message" class="form-message error">
+                    <i data-lucide="alert-circle" class="w-5 h-5"></i>
+                    <span data-key="formError">حدث خطأ أثناء إرسال الرسالة. يرجى المحاولة مرة أخرى.</span>
+                </div>
+                
+                <form id="contactForm">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="form-group">
+                            <label class="form-label" data-key="name">الاسم</label>
+                            <!-- أضفنا data-placeholder-key حتى يتم تغيير الـ placeholder بالإنجليزية -->
+                            <input type="text" id="name" name="name" class="form-control" placeholder="الاسم الكامل" data-placeholder-key="placeholderName" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label" data-key="emailAddress">البريد الإلكتروني</label>
+                            <input type="email" id="email" name="email" class="form-control" placeholder="البريد الإلكتروني" data-placeholder-key="placeholderEmail" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label" data-key="phoneNumber">رقم الهاتف</label>
+                            <input type="tel" id="phone" name="phone" class="form-control" placeholder="رقم الهاتف" data-placeholder-key="placeholderPhone">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label" data-key="subject">الموضوع</label>
+                            <input type="text" id="subject" name="subject" class="form-control" placeholder="موضوع الرسالة" data-placeholder-key="placeholderSubject">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" data-key="message">الرسالة</label>
+                        <textarea id="message" name="message" class="form-control" placeholder="رسالتك..." data-placeholder-key="placeholderMessage" required></textarea>
+                    </div>
+                    
+                    <button type="submit" id="submit-btn" class="submit-btn">
+                        <i data-lucide="send" class="w-5 h-5"></i>
+                        <span data-key="sendMessageBtn">إرسال الرسالة</span>
+                        <span class="spinner"></span>
+                    </button>
+                </form>
+            </div>
+        </section>
+        
+        <!-- Footer -->
+        <footer class="text-center mt-12 pt-8 site-footer">
+            <p>&copy; <span id="year"></span> <span data-key="companyNameFooter">شركة التواصل العالمي</span>. <span data-key="rightsReserved">جميع الحقوق محفوظة.</span></p>
+        </footer>
+    </div>
+
+    <script>
+        const translations = {
+            companyName: { ar: "شركة التواصل العالمي", en: "AL TAWASUL ALALAMI" },
+            tagline: { ar: "نصل العالم من خلال خدمات اتصالات استثنائية وشراكات عالمية", en: "Connecting the world through exceptional communication services and global partnerships" },
+            getInTouch: { ar: "كن على تواصل", en: "Get in Touch" },
+            phone: { ar: "هاتف", en: "Phone" },
+            email: { ar: "بريد إلكتروني", en: "Email" },
+            website: { ar: "الموقع الإلكتروني", en: "Website" },
+            connectWithUs: { ar: "تواصل معنا عبر", en: "Connect With Us" },
+            facebook: { ar: "فيسبوك", en: "Facebook" },
+            instagram: { ar: "انستغرام", en: "Instagram" },
+            twitter: { ar: "تطبيق اكس", en: "X App" },
+            whatsapp: { ar: "واتساب بزنس", en: "WhatsApp Business" },
+            visitOffice: { ar: "قم بزيارة مكتبنا", en: "Visit Our Office" },
+            address: { ar: "العنوان", en: "Address" },
+            workingHours: { ar: "ساعات العمل", en: "Working Hours" },
+            sendMessage: { ar: "أرسل لنا رسالة", en: "Send Us a Message" },
+            contactFormTitle: { ar: "اتصل بنا", en: "Contact Us" },
+            contactFormSubtitle: { ar: "لديك سؤال أو استفسار؟ يرجى ملء النموذج أدناه وسنرد عليك في أقرب وقت ممكن.", en: "Have a question or inquiry? Please fill out the form below and we will respond to you as soon as possible." },
+            name: { ar: "الاسم", en: "Name" },
+            emailAddress: { ar: "البريد الإلكتروني", en: "Email Address" },
+            phoneNumber: { ar: "رقم الهاتف", en: "Phone Number" },
+            subject: { ar: "الموضوع", en: "Subject" },
+            message: { ar: "الرسالة", en: "Message" },
+            sendMessageBtn: { ar: "إرسال الرسالة", en: "Send Message" },
+            companyNameFooter: { ar: "شركة التواصل العالمي", en: "AL TAWASUL ALALAMI" },
+            rightsReserved: { ar: "جميع الحقوق محفوظة.", en: "All rights reserved." },
+            formSuccess: { ar: "تم إرسال رسالتك بنجاح! سنتواصل معك قريباً.", en: "Your message has been sent successfully! We'll get back to you soon." },
+            formError: { ar: "حدث خطأ أثناء إرسال الرسالة. يرجى المحاولة مرة أخرى.", en: "An error occurred while sending your message. Please try again." },
+
+            // new keys for address / working hours values and placeholders
+            addressValue: {
+                ar: "9031 شارع عبدالرحمن عبدالقادر فقيه، حول جراند جاليريا، مكتب 20، حي الشرفية، مكة المكرمة، المملكة العربية السعودية، 24353",
+                en: "9031 Abdulrahman Abdulqader Faqih Street, near Grand Galleria, Office 20, Al-Sharafiya District, Makkah Al Mukarramah, Kingdom of Saudi Arabia, 24353"
+            },
+            workingHoursValue: {
+                ar: "24 ساعة",
+                en: "24 hours"
+            },
+            // placeholders for form fields
+            placeholderName: { ar: "الاسم الكامل", en: "Full name" },
+            placeholderEmail: { ar: "البريد الإلكتروني", en: "Email address" },
+            placeholderPhone: { ar: "رقم الهاتف", en: "Phone number" },
+            placeholderSubject: { ar: "موضوع الرسالة", en: "Subject" },
+            placeholderMessage: { ar: "رسالتك...", en: "Your message..." }
+        };
+        const htmlEl = document.documentElement;
+        const langButton = document.getElementById('lang-button');
+        const langLabel = document.getElementById('lang-label');
+        const langFlag = document.getElementById('lang-flag');
+        const themeButton = document.getElementById('theme-button');
+        const themeWidget = document.getElementById('theme-widget');
+        const themeIconContainer = themeButton.querySelector('.icon');
+
+        // Language Switcher
+        const setLanguage = (lang) => {
+            if (lang === 'ar') {
+                htmlEl.lang = 'ar';
+                htmlEl.dir = 'rtl';
+                document.querySelector('.lang-flag').textContent = '🇸🇦';
+                document.querySelector('.lang-label.ar').classList.add('active');
+                document.querySelector('.lang-label.en').classList.remove('active');
+            } else {
+                htmlEl.lang = 'en';
+                htmlEl.dir = 'ltr';
+                document.querySelector('.lang-flag').textContent = '🇬🇧';
+                document.querySelector('.lang-label.en').classList.add('active');
+                document.querySelector('.lang-label.ar').classList.remove('active');
+            }
+            // نصوص العناصر (data-key)
+            document.querySelectorAll('[data-key]').forEach(el => {
+                const key = el.dataset.key;
+                if (translations[key] && translations[key][lang]) {
+                    el.textContent = translations[key][lang];
+                }
+            });
+            // تحديث placeholders من data-placeholder-key
+            document.querySelectorAll('[data-placeholder-key]').forEach(el => {
+                const pk = el.dataset.placeholderKey;
+                if (translations[pk] && translations[pk][lang]) {
+                    el.placeholder = translations[pk][lang];
+                }
+            });
+            localStorage.setItem('language', lang);
+        };
+        langButton.addEventListener('click', () => {
+            const currentLang = htmlEl.lang || 'ar';
+            const newLang = currentLang === 'ar' ? 'en' : 'ar';
+            setLanguage(newLang);
+        });
+        // Theme Switcher
+        const setTheme = (theme) => {
+            if (theme === 'dark') {
+                htmlEl.classList.add('dark');
+                themeButton.setAttribute('aria-checked', 'true');
+            } else {
+                htmlEl.classList.remove('dark');
+                themeButton.setAttribute('aria-checked', 'false');
+            }
+            if (typeof lucide !== 'undefined' && lucide && lucide.createIcons) {
+                lucide.createIcons({
+                    attrs: { 'stroke-width': 2 },
+                    class: 'lucide-icon'
+                });
+            }
+            localStorage.setItem('theme', theme);
+        };
+        themeButton.addEventListener('click', () => {
+            const isDark = htmlEl.classList.contains('dark');
+            setTheme(isDark ? 'light' : 'dark');
+        });
+        // Background slideshow switching
+        (function () {
+            const slides = Array.from(document.querySelectorAll('.bg-slide'));
+            if (!slides.length) return;
+            let idx = 0;
+            // make first slide visible
+            slides.forEach((s, i) => s.classList.remove('active'));
+            slides[0].classList.add('active');
+
+            // auto-cycle function
+            const cycle = () => {
+                slides[idx].classList.remove('active');
+                idx = (idx + 1) % slides.length;
+                slides[idx].classList.add('active');
+            };
+
+            // stagger interval for gentle change; use 7s per slide
+            const interval = 7000;
+            let timer = setInterval(cycle, interval);
+
+            // Pause on visibility hidden to save CPU/bandwidth
+            document.addEventListener('visibilitychange', () => {
+                if (document.hidden) clearInterval(timer);
+                else timer = setInterval(cycle, interval);
+            });
+        })();
+        // Initial Load
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+            setTheme(savedTheme);
+            const savedLang = localStorage.getItem('language') || 'ar';
+            setLanguage(savedLang);
+            
+            document.getElementById('year').textContent = new Date().getFullYear();
+            
+            // إعداد خدمة EmailJS - استخدم public key كسلسلة نصية بسيطة
+            (function() {
+                // استبدل بالقيمة الصحيحة من لوحة تحكم EmailJS إذا اختلفت
+                emailjs.init("vhXGx0xeSdtGLuIqJ");
+            })();
+            
+            // معالجة إرسال نموذج الاتصال - تعديل طريقة الإرسال
+            const contactForm = document.getElementById('contactForm');
+            const submitButton = document.getElementById('submit-btn');
+            const successMessage = document.getElementById('success-message');
+            const errorMessage = document.getElementById('error-message');
+            
+            if (contactForm) {
+                contactForm.addEventListener('submit', function(event) {
+                    event.preventDefault();
+                    
+                    // إظهار حالة التحميل
+                    submitButton.classList.add('submitting');
+                    submitButton.disabled = true;
+                    
+                    // تجهيز بيانات النموذج (قراءة القيم فقط، بدون DOM objects)
+                    const rawData = {
+                        name: document.getElementById('name').value,
+                        email: document.getElementById('email').value,
+                        phone: document.getElementById('phone').value || 'غير متوفر',
+                        subject: document.getElementById('subject').value || 'استفسار جديد',
+                        message: document.getElementById('message').value
+                    };
+
+                    // ثابتات التهيئة - عيّن معرفي القالب هنا حسب ما في حساب EmailJS
+                    const SERVICE_ID = 'service_velxp2q';
+                    const PUBLIC_KEY = 'vhXGx0xeSdtGLuIqJ';
+                    // TODO: استبدل القيم التالية بمعرّفات القوالب الفعلية من لوحة EmailJS
+                    const TEMPLATE_CLIENT = 'template_fc2ync6';     // placeholder - استبدل بالمعرّف الفعلي لقالب العميل (مثال: template_fc2ync6)
+                    const TEMPLATE_INFO = 'template_yeawf5p';       // placeholder - استبدل بالمعرّف الفعلي لقالب الإشعار لــ info (مثال: template_yeawf5p)
+
+                    // يساعد على التحقق إذا كانت المعرفات مجرد قيم نائبة أو محتملة خاطئة
+                    function isLikelyValidTemplateId(id) {
+                        if (!id || typeof id !== 'string') return false;
+                        // يتم قبول القوالب التي تبدأ بـ "template_" وطولها مناسب
+                        return /^template_[a-z0-9]+$/i.test(id) && !id.includes('confirm') && !id.includes('internal_info') && !id.includes('placeholder');
+                    }
+
+                    // نظهر رسالة خطأ مرئية قصيرة للمستخدم وللمطور في الكونسول
+                    function showTemplateError(message) {
+                        console.error(message);
+                        const errSpan = errorMessage.querySelector('span');
+                        errSpan.textContent = message;
+                        errorMessage.classList.add('show');
+                        successMessage.classList.remove('show');
+                        setTimeout(() => errorMessage.classList.remove('show'), 8000);
+                    }
+ 
+                    // مساعد تنظيف: تحويل إلى نص وإزالة أي وسوم HTML أو كائنات عن طريق stringify ثم إزالة <...>
+                    function sanitize(v) {
+                        if (v === null || v === undefined) return '';
+                        // إذا كان كائن DOM أو أي كائن آخر، نحوله إلى نص آمن
+                        try {
+                            if (typeof v === 'object') v = String(v);
+                        } catch (e) { v = String(v); }
+                        // stringify then remove tags
+                        v = String(v);
+                        // إزالة وسوم html المحتملة
+                        v = v.replace(/<[^>]*>/g, '');
+                        return v.trim();
+                    }
+                    
+                    // نُنشئ متغيرات القالب مع متغير جاهز للعرض بدون شرط داخل القالب
+                    function buildTemplateParams(data) {
+                        const client_name = sanitize(data.name);
+                        const client_email = sanitize(data.email);
+                        const client_phone = sanitize(data.phone);
+                        const client_subject = sanitize(data.subject);
+                        const client_message = sanitize(data.message);
+        
+                        // بعض القوالب قد تستخدم شرط لعرض الفاصلة/النقطة قبل الاسم.
+                        // بدلاً من شرط داخل القالب، نمرّر المتغير الجاهز client_name_display
+                        const client_name_display = client_name ? '، ' + client_name : '';
+        
+                        return {
+                            client_name,
+                            client_email,
+                            client_phone,
+                            client_subject,
+                            client_message,
+                            client_name_display
+                        };
+                    }
+
+                    const params = buildTemplateParams(rawData);
+
+                    // مسجّل payload للمراجعة (لن يُرسل DOM). تفحّص هذا في console قبل الإرسال.
+                    console.info('Prepared email params:', params);
+                    
+                    // إعداد internalParams هنا حتى يتوفر داخل دوال الإرسال
+                    const internalParams = Object.assign({}, params, {
+                        reply_to: params.client_email,
+                        from_name: 'شركة التواصل العالمي'
+                    });
+                    
+                    // دالة إرسال مع retries بسيطة للاشعارات الداخلية (تتحقق أولاً من صلاحية معرف القالب)
+                    function sendInternal(retries = 2, delay = 1500) {
+                        if (!isLikelyValidTemplateId(TEMPLATE_INFO)) {
+                            showTemplateError('خطأ: معرف قالب الإشعار الداخلي غير مضبوط في الكود. ضع معرّف قالب EmailJS الداخلي (To ثابت إلى info@altawasul-alalami.com).');
+                            return Promise.reject(new Error('Invalid internal template id'));
+                        }
+ 
+                        // طباعة payload قبل الإرسال (يجب أن تراها كـ object منسق في Network/Console)
+                        console.log('Sending internal email payload:', { service: SERVICE_ID, template: TEMPLATE_INFO, params: internalParams });
+                        return emailjs.send(SERVICE_ID, TEMPLATE_INFO, internalParams, PUBLIC_KEY)
+                            .then(function(resp) {
+                                console.log('INTERNAL NOTICE SENT', resp && resp.status, resp && resp.text);
+                                return resp;
+                            })
+                            .catch(function(err) {
+                                console.error('INTERNAL NOTICE FAILED', err);
+                                try {
+                                    if (err && err.status === 400 && err.text && err.text.indexOf && err.text.indexOf('template ID') !== -1) {
+                                        showTemplateError('EmailJS: Template ID not found. تحقق من معرف القالب في لوحة EmailJS.');
+                                    }
+                                } catch (e) { /* ignore parsing */ }
+
+                                if (retries > 0) {
+                                    return new Promise((resolve) => setTimeout(resolve, delay)).then(() => sendInternal(retries - 1, Math.min(60000, delay * 2)));
+                                } else {
+                                    console.error('Internal notification failed after retries. تأكد من إعداد القالب وأن حقل "To" ثابت إلى info@altawasul-alalami.com.');
+                                    return Promise.reject(err);
+                                }
+                            });
+                     }
+ 
+                     // ثم: إرسال رسالة تأكيد إلى العميل باستخدام قالب العميل
+                     const clientParams = Object.assign({}, params);
+                     // (قالب العميل يجب أن يستعمل المتغيرات: client_name, client_email, client_phone, client_subject, client_message)
+                     function sendClient() {
+                         if (!isLikelyValidTemplateId(TEMPLATE_CLIENT)) {
+                             showTemplateError('تحذير: معرف قالب تأكيد العميل غير مضبوط. لن يتم إرسال تأكيد للعميل حتى تضبط TEMPLATE_CLIENT في الكود.');
+                             return Promise.reject(new Error('Invalid client template id'));
+                         }
+                         // طباعة payload قبل الإرسال
+                         console.log('Sending client email payload:', { service: SERVICE_ID, template: TEMPLATE_CLIENT, params: clientParams });
+                         return emailjs.send(SERVICE_ID, TEMPLATE_CLIENT, clientParams, PUBLIC_KEY)
+                              .then(function(resp) {
+                                  console.log('CLIENT CONFIRMATION SENT', resp && resp.status, resp && resp.text);
+                                  return resp;
+                              })
+                              .catch(function(err) {
+                                  console.error('CLIENT CONFIRMATION FAILED', err);
+                                  try {
+                                      if (err && err.status === 400 && err.text && err.text.indexOf && err.text.indexOf('template ID') !== -1) {
+                                          showTemplateError('EmailJS: Template ID not found for client template. تحقق من معرف القالب في لوحة EmailJS.');
+                                      }
+                                  } catch (e) {}
+                                  return Promise.reject(err);
+                              });
+                      }
+ 
+                     // إطلاق الإرسال: نتحقق ونرسل فقط القوالب المهيأة، نجمع الوعود ونقرر النتيجة للمستخدم
+                     const willSendInternal = isLikelyValidTemplateId(TEMPLATE_INFO);
+                     const willSendClient = isLikelyValidTemplateId(TEMPLATE_CLIENT);
+ 
+                     if (!willSendInternal && !willSendClient) {
+                         showTemplateError('لم يتم إرسال البريد. يرجى ضبط معرفي القالبين TEMPLATE_CLIENT و TEMPLATE_INFO في الكود (راجع لوحة EmailJS للحصول على المعرفات).');
+                     } else {
+                         const promises = [];
+                         if (willSendInternal) promises.push(sendInternal());
+                         if (willSendClient) promises.push(sendClient());
+ 
+                         Promise.allSettled(promises).then((results) => {
+                             const anyFulfilled = results.some(r => r.status === 'fulfilled');
+                             if (anyFulfilled) {
+                                 successMessage.classList.add('show');
+                                 errorMessage.classList.remove('show');
+                                 contactForm.reset();
+                                 setTimeout(() => successMessage.classList.remove('show'), 5000);
+                             } else {
+                                 // جميع الطلبات فشلت — أظهر رسالة خطأ عامة مع سجل الكونسول للتفصيل
+                                 showTemplateError('فشل إرسال الرسائل. راجع الكونسول وDashboard الخاص بـ EmailJS للتفاصيل.');
+                             }
+                         }).catch(err => {
+                             console.error('Unexpected error while sending emails', err);
+                             showTemplateError('حدث خطأ غير متوقع أثناء إرسال الرسائل. تحقق من الكونسول لمزيد من التفاصيل.');
+                         }).finally(() => {
+                             submitButton.classList.remove('submitting');
+                             submitButton.disabled = false;
+                         });
+                     }
+                 });
+             }
+            
+            // التحقق من صحة البريد الإلكتروني
+            function isValidEmail(email) {
+                const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                return re.test(String(email).toLowerCase());
+            }
+        });
+    </script>
+</body>
+</html>
