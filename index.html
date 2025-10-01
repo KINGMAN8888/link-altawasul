@@ -62,8 +62,8 @@
             z-index: -1;
             pointer-events: none;
             background: rgba(0, 0, 0, 0.45); /* زيادة التعتيم للخلفية */
-            backdrop-filter: blur(8px);
             -webkit-backdrop-filter: blur(8px);
+            backdrop-filter: blur(8px);
         }
         .dark body::before {
             background: rgba(10, 25, 47, 0.65); /* زيادة التعتيم في الوضع المظلم */
@@ -245,8 +245,8 @@
             transition: transform .25s, box-shadow .25s, border-color .25s;
             border-radius: 1.2rem;
             position: relative;
-            backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
         }
         .card:hover {
             transform: translateY(-8px);
@@ -273,8 +273,8 @@
             transition: all .25s;
             text-align: center;
             padding: 1.2rem .5rem;
-            backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
         }
         .social-card:hover {
             transform: translateY(-5px);
@@ -344,6 +344,14 @@
         .bg-slide[data-anim="panSlow"] { animation: panSlow 28s ease-in-out infinite; }
         .bg-slide[data-anim="panReverse"] { animation: panReverse 26s ease-in-out infinite; }
         .bg-slide[data-anim="panMed"] { animation: panSlow 22s ease-in-out infinite; }
+        .bg-slide-1 { background-image: url('./التواصل العالمي خلفيات/1.png'); }
+        .bg-slide-2 { background-image: url('./التواصل العالمي خلفيات/2.png'); }
+        .bg-slide-3 { background-image: url('./التواصل العالمي خلفيات/3.png'); }
+        .bg-slide-4 { background-image: url('./التواصل العالمي خلفيات/4.png'); }
+        .bg-slide-5 { background-image: url('./التواصل العالمي خلفيات/5.png'); }
+        .bg-slide-6 { background-image: url('./التواصل العالمي خلفيات/6.png'); }
+        .bg-slide-7 { background-image: url('./التواصل العالمي خلفيات/7.png'); }
+        .bg-slide-8 { background-image: url('./التواصل العالمي خلفيات/8.png'); }
 
         /* Section headings */
         section h2 {
@@ -501,8 +509,8 @@
             padding: 1.5rem;
             margin-bottom: 1rem;
             transition: transform .25s, box-shadow .25s;
-            backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
         }
         .info-card:hover {
             transform: translateY(-5px);
@@ -554,8 +562,8 @@
             margin: 0 auto 1.5rem;
             border-radius: 16px;
             background: linear-gradient(135deg, rgba(0,0,0,0.4), rgba(0,0,0,0.1));
-            backdrop-filter: blur(5px);
             -webkit-backdrop-filter: blur(5px);
+            backdrop-filter: blur(5px);
             border: 1px solid rgba(200, 155, 60, 0.4);
             box-shadow: 
                 0 15px 25px rgba(0,0,0,0.2),
@@ -649,21 +657,24 @@
         .btn.submitting span {
             opacity: 0.7;
         }
+
+        .subtle-text { color: var(--subtle-text); }
+        .map-frame { border: 0; }
     </style>
 </head>
 
-<body style="background-color: var(--bg-color); color: var(--text-color);">
+<body>
     
     <!-- Background slideshow: multiple images rotate with blur + subtle pan -->
     <div class="bg-slideshow" aria-hidden="true">
-        <div class="bg-slide" data-anim="panSlow" style="background-image: url('./التواصل العالمي خلفيات/1.png');"></div>
-        <div class="bg-slide" data-anim="panReverse" style="background-image: url('./التواصل العالمي خلفيات/2.png');"></div>
-        <div class="bg-slide" data-anim="panMed" style="background-image: url('./التواصل العالمي خلفيات/3.png');"></div>
-        <div class="bg-slide" data-anim="panSlow" style="background-image: url('./التواصل العالمي خلفيات/4.png');"></div>
-        <div class="bg-slide" data-anim="panMed" style="background-image: url('./التواصل العالمي خلفيات/5.png');"></div>
-        <div class="bg-slide" data-anim="panReverse" style="background-image: url('./التواصل العالمي خلفيات/6.png');"></div>
-        <div class="bg-slide" data-anim="panSlow" style="background-image: url('./التواصل العالمي خلفيات/7.png');"></div>
-        <div class="bg-slide" data-anim="panMed" style="background-image: url('./التواصل العالمي خلفيات/8.png');"></div>
+        <div class="bg-slide bg-slide-1" data-anim="panSlow"></div>
+        <div class="bg-slide bg-slide-2" data-anim="panReverse"></div>
+        <div class="bg-slide bg-slide-3" data-anim="panMed"></div>
+        <div class="bg-slide bg-slide-4" data-anim="panSlow"></div>
+        <div class="bg-slide bg-slide-5" data-anim="panMed"></div>
+        <div class="bg-slide bg-slide-6" data-anim="panReverse"></div>
+        <div class="bg-slide bg-slide-7" data-anim="panSlow"></div>
+        <div class="bg-slide bg-slide-8" data-anim="panMed"></div>
     </div>
 
     <!-- Navbar -->
@@ -675,7 +686,7 @@
                 <span class="lang-label ar active">AR</span>
                 <span class="lang-label en">EN</span>
             </div>
-            <div id="theme-button" class="theme-toggle" role="switch" aria-label="Toggle theme" title="Toggle theme">
+            <div id="theme-button" class="theme-toggle" role="switch" aria-label="Toggle theme" title="Toggle theme" aria-checked="false">
                 <div class="theme-handle">
                     <span class="icon moon-icon"><i data-lucide="moon" class="lucide-icon"></i></span>
                     <span class="icon sun-icon"><i data-lucide="sun" class="lucide-icon"></i></span>
@@ -703,21 +714,21 @@
                         <i data-lucide="phone" class="w-7 h-7 text-white"></i>
                     </div>
                     <h3 class="font-semibold text-lg mt-2" data-key="phone">هاتف</h3>
-                    <p class="mt-1" style="color: var(--subtle-text);" dir="ltr">+966 54 576 6489</p>
+                    <p class="mt-1 subtle-text" dir="ltr">+966 54 576 6489</p>
                 </a>
                 <a href="mailto:info@altawasul.com" class="card p-7 text-center flex flex-col items-center">
                     <div class="icon-circle">
                         <i data-lucide="mail" class="w-7 h-7 text-white"></i>
                     </div>
                     <h3 class="font-semibold text-lg mt-2" data-key="email">بريد إلكتروني</h3>
-                    <p class="mt-1" style="color: var(--subtle-text);">info@altawasul-alalami.com</p>
+                    <p class="mt-1 subtle-text">info@altawasul-alalami.com</p>
                 </a>
                 <a href="https://www.altawasul-alalami.com" class="card p-7 text-center flex flex-col items-center">
                     <div class="icon-circle">
                         <i data-lucide="globe-2" class="w-7 h-7 text-white"></i>
                     </div>
                     <h3 class="font-semibold text-lg mt-2" data-key="website">الموقع الإلكتروني</h3>
-                    <p class="mt-1" style="color: var(--subtle-text);">www.altawasul-alalami.com</p>
+                    <p class="mt-1 subtle-text">www.altawasul-alalami.com</p>
                 </a>
             </div>
         </section>
@@ -759,7 +770,7 @@
                     <div class="info-content">
                         <h3 class="info-title" data-key="address">العنوان</h3>
                         <!-- أضفنا data-key للنص الكامل ليترجم آلياً -->
-                        <p class="info-value" data-key="addressValue">9031 شارع عبدالرحمن عبدالقادر فقيه، حول جراند جاليريا، مكتب 20، حي الشرفية، مكة المكرمة، المملكة العربية السعودية، 24353</p>
+                        <p class="info-value subtle-text" data-key="addressValue">9031 شارع عبدالرحمن عبدالقادر فقيه، حول جراند جاليريا، مكتب 20، حي الشرفية، مكة المكرمة، المملكة العربية السعودية، 24353</p>
                     </div>
                 </div>
                 
@@ -771,7 +782,7 @@
                     <div class="info-content">
                         <h3 class="info-title" data-key="workingHours">ساعات العمل</h3>
                         <!-- أضفنا data-key للقيمة أيضاً -->
-                        <p class="info-value" data-key="workingHoursValue">24 ساعة</p>
+                        <p class="info-value subtle-text" data-key="workingHoursValue">24 ساعة</p>
                     </div>
                 </div>
             </div>
@@ -782,11 +793,10 @@
                     src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d928.8457758752777!2d39.78912833037145!3d21.37481494763121!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x15c21a9b9d4efd0d%3A0xdc693b43f45cebd1!2z2KzYsdin2YbYryDYrNmI2YTYr9mGINis2KfZhNmK2LHZig!5e0!3m2!1sar!2seg!4v1756770314642!5m2!1sar!2seg" 
                     width="100%" 
                     height="350" 
-                    class="rounded-lg"
-                    style="border:0;" 
+                    class="rounded-lg map-frame"
                     allowfullscreen="" 
-                    loading="lazy" 
-                    referrerpolicy="no-referrer-when-downgrade">
+                    loading="lazy"
+                    title="موقع شركة التواصل العالمي على خرائط جوجل">
                 </iframe>
             </div>
         </section>
